@@ -77,6 +77,7 @@ def main(page:Page):
 			ct_login.visible = False
 			ct_dashboard.visible = True
 			page.snack_bar.open = True
+			adddataicon.visible = True
 			setkey = page.client_storage.set("userlog", ct_login.content.controls[1].value)
 			# LOAD DATA
 			getproductlist()
@@ -772,6 +773,7 @@ def main(page:Page):
 		page.client_storage.remove("userlog")
 		ct_dashboard.visible = False
 		ct_login.visible = True
+		adddataicon.visible = False
 		ct_login.content.controls[1].value = ""
 		ct_login.content.controls[2].value = ""
 		ct_login.content.controls[3].value = ""
@@ -821,17 +823,20 @@ def main(page:Page):
 
 
 	
-
+	adddataicon = IconButton(icon="library_add",icon_size=30,
+			on_click=btndialogadnew,
+			icon_color="white",
+			visible=False
+			)
 	
 	page.add(
 		AppBar(
 		title=Text("Inventory App",size=30,weight="bold",
+			color="white"
 			),
 		bgcolor="blue",
 		actions=[
-		IconButton(icon="library_add",icon_size=30,
-			on_click=btndialogadnew
-			),
+		adddataicon
 		]
 			),
 		ct_login,
