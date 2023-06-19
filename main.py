@@ -636,10 +636,10 @@ def main(page:Page):
 					Dropdown(
 					width=100,
 					options=[
-						dropdown.Option("Drinks"),
-						dropdown.Option("Snacks"),
-						dropdown.Option("Rice"),
-						dropdown.Option("Meal"),
+						dropdown.Option("Truck"),
+						dropdown.Option("Big"),
+						dropdown.Option("Small"),
+						dropdown.Option("Medium"),
 					]
 					),
 					],alignment="spaceBetween"),
