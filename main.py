@@ -97,29 +97,39 @@ def main(page:Page):
 		page.update()
 
 	ct_login = Container(
+		bgcolor="blue200",
+		padding=10,
+		border_radius=border_radius.only(
+			top_left=30,
+			top_right=30
+			),
 		width=page.window_width,
 		content=Column([
 			Row([
-				Text("Login User",size=25,weight="bold")
+				Text("Login User",size=25,weight="bold",
+					color="white"
+					)
 				]),
 			TextField(label="username"),
 			TextField(label="Email",visible=False),
 			TextField(label="password",
 				password=True, can_reveal_password=True
 				),
-			ElevatedButton("Login",
-				bgcolor="orange",
+			Row([
+				ElevatedButton("Login Now",
+				bgcolor="green",
 				color="white",
 				on_click=loginnow,
 				visible=True
 				),
+				],alignment="center"),
 			ElevatedButton("Register",
-				bgcolor="green",
+				bgcolor="red",
 				color="white",
 				on_click=registernow,
 				visible=False
 				),
-			Checkbox(label="No Have Account ? , register now",
+			Checkbox(label="register now",
 				value=False,
 				on_change=changeregister
 				)
@@ -368,19 +378,17 @@ def main(page:Page):
 				ListTile(
 				title=Text(x.collection_id['name_br'],weight="bold"),
 				subtitle=Column([
-				Text(f"Created : {x.collection_id['created']}"),
-				Text(f"Updated : {x.collection_id['updated']}"),
 				Text(f"Last Stock : {x.collection_id['stock']} Pcs",
 					weight="bold",
 					color="red" if x.collection_id['stock'] <= 5 else "green"
 					),
 				Row([
-				ElevatedButton("add outgoing",
+				ElevatedButton("add Stock Out",
 					bgcolor="red",color="white",
 					data=x.collection_id,
 					on_click=addoutgoing
 					)
-					],alignment="end")
+					],alignment="center")
 					])
 
 					)
@@ -398,8 +406,7 @@ def main(page:Page):
 		for x in getlistin.items:
 			seelistinhistory.controls.append(
 				Container(
-				border_radius=30,
-				bgcolor="green",
+				bgcolor="orange",
 				padding=15,
 				content=Column([
 					Text(x.collection_id['name_br'],size=25,weight="bold",
@@ -420,14 +427,7 @@ def main(page:Page):
 							),
 						Icon(name="check_circle",color="white",size=25)
 						],alignment="spaceBetween"),
-					Column([
-						Text(f"created : {x.collection_id['date']}",color="white",
-							size=20
-							),
-						Text(f"Time : {x.collection_id['time']}",color="white",
-							size=20
-							),
-						])
+					
 					])
 					)
 				)
@@ -443,8 +443,7 @@ def main(page:Page):
 		for x in getlistout.items:
 			seelistouthistory.controls.append(
 				Container(
-				border_radius=30,
-				bgcolor="red",
+				bgcolor="black",
 				padding=15,
 				content=Column([
 					Text(x.collection_id['name_br'],size=25,weight="bold",
@@ -490,19 +489,17 @@ def main(page:Page):
 				ListTile(
 				title=Text(x.collection_id['name_br'],weight="bold"),
 				subtitle=Column([
-				Text(f"Created : {x.collection_id['created']}"),
-				Text(f"Updated : {x.collection_id['updated']}"),
 				Text(f"Last Stock : {x.collection_id['stock']} Pcs",
 					weight="bold",
 					color="red" if x.collection_id['stock'] <= 5 else "green"
 					),
 				Row([
-				ElevatedButton("add Incoming",
+				ElevatedButton("add Enter Data",
 					bgcolor="green",color="white",
 					data=x.collection_id,
 					on_click=addincoming
 					)
-					],alignment="end")
+					],alignment="center")
 					])
 
 					)
@@ -530,10 +527,7 @@ def main(page:Page):
 					Row([
 						Text(f"price : {x.collection_id['total_price']}"),
 						Text(f"{x.collection_id['total_pcs']} pcs"),
-						Text(f"urgent: {x.collection_id['urgent']}",
-							weight="bold",
-						color="red" if x.collection_id['urgent'] == "true" else "black"
-							),
+						
 					])
 						])
 					)
@@ -552,7 +546,8 @@ def main(page:Page):
 		for x in getdata.items:
 			productList.controls.append(
 				Container(
-					bgcolor="yellow100",
+					border_radius=30,
+					bgcolor="red100",
 					padding=10,
 				content=Column([
 					Image(src=x.collection_id['image'],width=300,height=200),
@@ -583,11 +578,11 @@ def main(page:Page):
 						],wrap=True),
 					Row([
 						ElevatedButton("Order This",
-						bgcolor="pink",color="white",
+						bgcolor="green",color="white",
 						data=x.collection_id,
 						on_click=createnewinvoice
 							)
-						],alignment="end")
+						],alignment="center")
 					])
 					)
 				)
@@ -703,7 +698,7 @@ def main(page:Page):
 	listinvoice = Column(scroll="auto",visible=False,
 		controls=[
 		Row([
-			Text("Order Daily",size=25,weight="bold"),
+			Text("Get Order",size=25,weight="bold"),
 			closewindow
 			],alignment="spaceBetween"),
 		datainvoice
@@ -712,7 +707,7 @@ def main(page:Page):
 	listmasukin = Column(scroll="auto",visible=False,
 		controls=[
 		Row([
-			Text("Incoming data",size=25,weight="bold",color="green"),
+			Text("Enter Data",size=25,weight="bold",color="green"),
 			closewindow
 			],alignment="spaceBetween"),
 		Row([
@@ -730,7 +725,7 @@ def main(page:Page):
 	listkeluar = Column(scroll="auto",visible=False,
 		controls=[
 		Row([
-			Text("Outgoing Data",size=25,weight="bold",color="red"),
+			Text("Stock Out",size=25,weight="bold",color="red"),
 			closewindow
 			],alignment="spaceBetween"),
 		Row([
@@ -789,24 +784,23 @@ def main(page:Page):
 		visible=False if userlog == None else True,
 		content=Column([
 			Row([
-			Text(f"Hi {userlog if userlog else 'None'}",
-				weight="bold"
-				),
-			TextButton("Logout",
+			
+			ElevatedButton("Logout",
+				bgcolor="red",color="white",
 				on_click=logoutnow
 				)
-				],alignment="spaceBetween"),
+				],alignment="center"),
 			Row([
-		ElevatedButton("Order",
-			bgcolor="orange",color="white",
+		IconButton(icon="book",
+			bgcolor="orange",icon_color="white",
 			on_click=dialoginvoice
 			),
-		ElevatedButton("IN",
-			bgcolor="green",color="white",
+		IconButton(icon="create",
+			bgcolor="green",icon_color="white",
 			on_click=dialogbarangin
 			),
-		ElevatedButton("OUT",
-			bgcolor="red",color="white",
+		IconButton(icon="exit_to_app",
+			bgcolor="red",icon_color="white",
 			on_click=dialogbarangout
 
 			),
@@ -823,18 +817,16 @@ def main(page:Page):
 
 
 	
-	adddataicon = IconButton(icon="library_add",icon_size=30,
+	adddataicon = IconButton(icon="add",icon_size=30,
 			on_click=btndialogadnew,
-			icon_color="white",
+			icon_color="orange",
 			visible=False
 			)
 	
 	page.add(
 		AppBar(
 		title=Text("Inventory App",size=30,weight="bold",
-			color="white"
 			),
-		bgcolor="blue",
 		actions=[
 		adddataicon
 		]
