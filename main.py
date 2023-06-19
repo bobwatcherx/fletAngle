@@ -620,6 +620,7 @@ def main(page:Page):
 			page.snack_bar = mysnack
 			mysnack.open = True
 			dialognewdata.open = False
+			getproductlist()
 		except Exception as e:
 			print(e)
 		page.update()
